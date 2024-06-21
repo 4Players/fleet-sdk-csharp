@@ -1,0 +1,2442 @@
+openapi: 3.1.0
+info:
+  description: "API to access Odin Fleet, empowering developers to deploy gameservers\
+    \ all around the world in just a few lines of code."
+  title: ODIN Fleet API
+  version: 0.8.1
+servers:
+- description: production
+  url: https://fleet.4players.io/api
+paths:
+  /v1/app-location-settings/{appLocationSetting}:
+    delete:
+      operationId: deleteAppLocationSetting
+      parameters:
+      - description: The app location setting ID
+        explode: false
+        in: path
+        name: appLocationSetting
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Delete a location setting
+      tags:
+      - OdinFleet
+    put:
+      operationId: updateAppLocationSetting
+      parameters:
+      - description: The app location setting ID
+        explode: false
+        in: path
+        name: appLocationSetting
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateAppLocationSetting_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppLocationSetting'
+          description: '`AppLocationSetting`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Update a location setting
+      tags:
+      - OdinFleet
+  /v1/apps/{app}/location-settings:
+    get:
+      operationId: getAppLocationSettings
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppLocationSettingCollection'
+          description: '`AppLocationSettingCollection`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+      summary: Show all location settings
+      tags:
+      - OdinFleet
+    post:
+      operationId: createAppLocationSetting
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createAppLocationSetting_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppLocationSetting'
+          description: '`AppLocationSetting`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Create a new location setting
+      tags:
+      - OdinFleet
+  /v1/apps:
+    get:
+      operationId: getApps
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppCollection'
+          description: '`AppCollection`'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+      summary: Show all apps
+      tags:
+      - OdinFleet
+    post:
+      operationId: createApp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createApp_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+          description: '`App`'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Create an app
+      tags:
+      - OdinFleet
+  /v1/apps/{app}:
+    delete:
+      description: |-
+        This method is responsible for deleting an App record from the database.
+        It locates the App instance using the provided ID, and if found, proceeds to delete it.
+        Upon successful deletion, an HTTP 204 No Content response is returned, indicating
+        that the action was successful.
+      operationId: deleteApp
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Delete a specific app
+      tags:
+      - OdinFleet
+    get:
+      operationId: getAppById
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+          description: '`App`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Show a specific app
+      tags:
+      - OdinFleet
+  /v1/auth/token:
+    delete:
+      operationId: deleteAuthToken
+      parameters:
+      - description: The session id of the user
+        example: 1234567890ABCDEFG
+        explode: true
+        in: query
+        name: sid
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Handles the deletion of a user's authentication tokens
+      tags:
+      - OdinFleet
+    post:
+      description: |-
+        Validates the incoming request and attempts to authenticate the user based on the provided session ID.
+        If the user is authenticated successfully, it returns an AuthResource containing the user's bearer token.
+      operationId: getAuthToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getAuthToken_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+          description: '`Auth`'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Handles user authentication
+      tags:
+      - OdinFleet
+  /v1/apps/{app}/binaries:
+    get:
+      operationId: getBinaries
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BinaryCollection'
+          description: '`BinaryCollection`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Show all binaries
+      tags:
+      - OdinFleet
+    post:
+      operationId: createBinary
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBinary_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Binary'
+          description: '`Binary`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Create a binary and the related file
+      tags:
+      - OdinFleet
+  /v1/binaries/{binary}:
+    delete:
+      description: |-
+        It first finds the Binary instance by its ID. If the instance is found, it is deleted.
+        The method then returns an HTTP 204 No Content response to indicate successful deletion.
+      operationId: deleteBinary
+      parameters:
+      - description: The binary ID
+        explode: false
+        in: path
+        name: binary
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Delete a specified binary
+      tags:
+      - OdinFleet
+    get:
+      operationId: getBinaryById
+      parameters:
+      - description: The binary ID
+        explode: false
+        in: path
+        name: binary
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Binary'
+          description: '`Binary`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Show a specific binary
+      tags:
+      - OdinFleet
+    put:
+      operationId: updateBinary
+      parameters:
+      - description: The binary ID
+        explode: false
+        in: path
+        name: binary
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBinary_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Binary'
+          description: '`Binary`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Update a binary and the related file
+      tags:
+      - OdinFleet
+  /v1/apps/{app}/services:
+    get:
+      operationId: getServers
+      parameters:
+      - description: Instance of the app to filter services by.
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerCollection'
+          description: '`ServerCollection`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+      summary: Show all services for a given app
+      tags:
+      - OdinFleet
+  /v1/apps/{app}/services/{service}:
+    get:
+      operationId: getServerById
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+          description: '`Server`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Display a specific DockerService associated with the given App
+      tags:
+      - OdinFleet
+  /v1/docker-registries:
+    get:
+      operationId: getDockerRegistries
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerRegistryCollection'
+          description: '`DockerRegistryCollection`'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+      summary: Show all docker registries
+      tags:
+      - OdinFleet
+    post:
+      operationId: createDockerRegistry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDockerRegistry_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerRegistry'
+          description: '`DockerRegistry`'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Create a new docker registry
+      tags:
+      - OdinFleet
+  /v1/docker-registries/{dockerRegistry}:
+    delete:
+      operationId: deleteDockerRegistry
+      parameters:
+      - description: The docker registry ID
+        explode: false
+        in: path
+        name: dockerRegistry
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Delete a specific docker registry
+      tags:
+      - OdinFleet
+    get:
+      operationId: getDockerRegistryById
+      parameters:
+      - description: The docker registry ID
+        explode: false
+        in: path
+        name: dockerRegistry
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerRegistry'
+          description: '`DockerRegistry`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Display a specific docker registry
+      tags:
+      - OdinFleet
+    put:
+      operationId: updateDockerRegistry
+      parameters:
+      - description: The docker registry ID
+        explode: false
+        in: path
+        name: dockerRegistry
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateDockerRegistry_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerRegistry'
+          description: '`DockerRegistry`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Update a specific docker registry
+      tags:
+      - OdinFleet
+  /v1/services/{service}/logs:
+    get:
+      operationId: getServerLogs
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: details Flag
+        explode: true
+        in: query
+        name: details
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: follow Flag
+        explode: true
+        in: query
+        name: follow
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: stdout Flag
+        explode: true
+        in: query
+        name: stdout
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: stderr Flag
+        explode: true
+        in: query
+        name: stderr
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: since Flag
+        explode: true
+        in: query
+        name: since
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+        style: form
+      - description: timestamps Flag
+        explode: true
+        in: query
+        name: timestamps
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: tail options
+        explode: true
+        in: query
+        name: tail
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceLogs'
+          description: '`ServiceLogs`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Get stdout and stderr logs from a service or task
+      tags:
+      - OdinFleet
+  /v1/services/{service}/backup:
+    get:
+      operationId: getMostRecentBackup
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backup'
+          description: '`Backup`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Display the most recent backup for the specified Docker service
+      tags:
+      - OdinFleet
+    post:
+      operationId: createBackup
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBackup_request'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: ""
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Creates a backup of the service
+      tags:
+      - OdinFleet
+  /v1/services/{service}/restore:
+    post:
+      operationId: restoreBackup
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: ""
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Restore a backup for a specified Docker service
+      tags:
+      - OdinFleet
+  /v1/services/{service}/backups:
+    get:
+      operationId: getBackups
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerBackupCollection'
+          description: '`DockerBackupCollection`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: List all backups for the specified Docker service
+      tags:
+      - OdinFleet
+  /v1/services/{service}/backup/download:
+    get:
+      operationId: getServerBackupDownloadUrl
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupDownload'
+          description: '`BackupDownload`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Generates a presigned URL for downloading a backup from AWS S3 if the
+        backup method is 'archive'
+      tags:
+      - OdinFleet
+  /v1/services/{service}/restart:
+    post:
+      operationId: restartServer
+      parameters:
+      - description: The service ID
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: ""
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Restarts a specific Docker service
+      tags:
+      - OdinFleet
+  /v1/nodes/locations:
+    get:
+      description: |-
+        Synchronizes the local database with the state of Docker nodes,
+        then filters for active, ready worker nodes to create a unique listing of their
+        location labels. These nodes are suitable for deployment.
+      operationId: getLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationCollection'
+          description: '`LocationCollection`'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+      summary: Show a unique listing of locations based on active and ready worker
+        nodes
+      tags:
+      - OdinFleet
+  /v1/apps/{app}/configs:
+    get:
+      operationId: getServerConfigs
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerConfigCollection'
+          description: '`ServerConfigCollection`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Show all server configs
+      tags:
+      - OdinFleet
+    post:
+      operationId: createServerConfig
+      parameters:
+      - description: The app ID
+        explode: false
+        in: path
+        name: app
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createServerConfig_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerConfig'
+          description: '`ServerConfig`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Create a new server config
+      tags:
+      - OdinFleet
+  /v1/server-configs/{serverConfig}:
+    delete:
+      description: |-
+        This method handles the deletion of a ServerConfig record from the database.
+        It first finds the ServerConfig instance by its ID, and if found, deletes it.
+        Returns an HTTP 204 No Content response upon successful deletion.
+      operationId: deleteServerConfig
+      parameters:
+      - description: The server config ID
+        explode: false
+        in: path
+        name: serverConfig
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                nullable: true
+          description: No content
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Delete a specific server config
+      tags:
+      - OdinFleet
+    get:
+      operationId: getServerConfigById
+      parameters:
+      - description: The server config ID
+        explode: false
+        in: path
+        name: serverConfig
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerConfig'
+          description: '`ServerConfig`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Show a specific server config
+      tags:
+      - OdinFleet
+    put:
+      operationId: updateServerConfig
+      parameters:
+      - description: The server config ID
+        explode: false
+        in: path
+        name: serverConfig
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createServerConfig_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerConfig'
+          description: '`ServerConfig`'
+        "404":
+          $ref: '#/components/responses/ModelNotFoundException'
+        "401":
+          $ref: '#/components/responses/AuthenticationException'
+        "422":
+          $ref: '#/components/responses/ValidationException'
+        "403":
+          $ref: '#/components/responses/AuthorizationException'
+      summary: Update a server config
+      tags:
+      - OdinFleet
+components:
+  responses:
+    ModelNotFoundException:
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                description: Error overview.
+                type: string
+            required:
+            - message
+      description: Not found
+    AuthenticationException:
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                description: Error overview.
+                type: string
+            required:
+            - message
+      description: Unauthenticated
+    ValidationException:
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                description: Errors overview.
+                type: string
+              errors:
+                additionalProperties:
+                  items:
+                    type: string
+                description: A detailed description of each field that failed validation.
+            required:
+            - errors
+            - message
+      description: Validation error
+    AuthorizationException:
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                description: Error overview.
+                type: string
+            required:
+            - message
+      description: Authorization error
+    NotFoundHttpException:
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                description: Error overview.
+                type: string
+            required:
+            - message
+      description: Not found
+  schemas:
+    App:
+      example:
+        name: name
+        id: 0
+      properties:
+        id:
+          description: The id of the app
+          type: integer
+        name:
+          description: The name of the app
+          type: string
+      required:
+      - id
+      - name
+      title: App
+    AppCollection:
+      items:
+        $ref: '#/components/schemas/App'
+      type: array
+    AppLocationSetting:
+      example:
+        serverConfigId: 1
+        autoScalerMax: 2
+        autoScalerMin: 5
+        numInstances: 5
+        appId: 6
+        autoScalerEnabled: true
+        name: name
+        id: 0
+        placement:
+          constraints:
+            country: country
+            city: city
+        serverConfig:
+          notes: notes
+          resources:
+            reservations:
+              memory: 4.145608029883936
+              cpu: 2.027123023002322
+            limits:
+              memory: 4.145608029883936
+              cpu: 2.027123023002322
+          mounts:
+          - readOnly: true
+            target: target
+          - readOnly: true
+            target: target
+          env:
+          - variable: variable
+            type: null
+            value: value
+            key: key
+          - variable: variable
+            type: null
+            value: value
+            key: key
+          ports:
+          - name: name
+            publishMode: null
+            protocols:
+            - null
+            - null
+            targetPort: 7
+          - name: name
+            publishMode: null
+            protocols:
+            - null
+            - null
+            targetPort: 7
+          restartPolicy:
+            condition: null
+          command: command
+          args: args
+          configFiles:
+          - name: name
+            content: content
+            target: target
+          - name: name
+            content: content
+            target: target
+          appId: 3
+          binary:
+            dockerImage:
+              imageName: imageName
+              registryId: 1
+            os: null
+            configTemplates:
+            - name: name
+              id: id
+              content: content
+              binaryId: binaryId
+            - name: name
+              id: id
+              content: content
+              binaryId: binaryId
+            ready: true
+            appId: 1
+            name: name
+            id: 1
+            type: type
+            dockerCompose:
+              composeFile: composeFile
+            version: version
+            zipFile:
+              zipFileUrl: zipFileUrl
+              commandLine: commandLine
+          name: name
+          id: 7
+          binaryId: 9
+      properties:
+        id:
+          description: The id of the app location setting
+          type: integer
+        name:
+          description: The name of the app location setting
+          type: string
+        appId:
+          description: The app id of the app location setting
+          type: integer
+        serverConfigId:
+          description: The server config id of the app location setting
+          type: integer
+        numInstances:
+          description: The number of instances that should run at the specific location
+          type: integer
+        autoScalerEnabled:
+          description: Whether the auto scaler is enabled
+          type: boolean
+        autoScalerMin:
+          description: The minimum number of instances that should run at the specific
+            location
+          type: integer
+        autoScalerMax:
+          description: The maximum number of instances that should run at the specific
+            location
+          type: integer
+        placement:
+          $ref: '#/components/schemas/Placement'
+        serverConfig:
+          $ref: '#/components/schemas/ServerConfig'
+      required:
+      - appId
+      - autoScalerEnabled
+      - id
+      - name
+      - numInstances
+      - placement
+      - serverConfigId
+      title: AppLocationSetting
+    AppLocationSettingCollection:
+      items:
+        $ref: '#/components/schemas/AppLocationSetting'
+      type: array
+    Auth:
+      example:
+        token: token
+      properties:
+        token:
+          description: The authentication token
+          type: string
+      required:
+      - token
+      title: Auth
+    Backup:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        awsRegion: awsRegion
+        restoredAt: 2000-01-23T04:56:07.000+00:00
+        archiveName: archiveName
+        name: name
+        backupMethod: null
+      properties:
+        name:
+          description: The name of the backup
+          type: string
+        archiveName:
+          description: The name of the stored archive
+          type: string
+        backupMethod:
+          $ref: '#/components/schemas/BackupType'
+        awsRegion:
+          description: The AWS region the backup is stored at
+          type: string
+        createdAt:
+          description: The timestamp of the backups creation
+          format: date-time
+          type: string
+        restoredAt:
+          description: "$restoredAt The timestamp of when the backup was restored,\
+            \ null if not restored"
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - archiveName
+      - awsRegion
+      - backupMethod
+      - createdAt
+      - name
+      - restoredAt
+      title: Backup
+    BackupDownload:
+      example:
+        validUntil: 2000-01-23T04:56:07.000+00:00
+        url: https://openapi-generator.tech
+      properties:
+        url:
+          description: The url where the file is available
+          format: uri
+          type: string
+        validUntil:
+          description: After this date the link is no longer valid
+          format: date-time
+          type: string
+      required:
+      - url
+      - validUntil
+      title: BackupDownload
+    BackupType:
+      enum:
+      - archive
+      title: BackupType
+      type: string
+    Binary:
+      example:
+        dockerImage:
+          imageName: imageName
+          registryId: 1
+        os: null
+        configTemplates:
+        - name: name
+          id: id
+          content: content
+          binaryId: binaryId
+        - name: name
+          id: id
+          content: content
+          binaryId: binaryId
+        ready: true
+        appId: 1
+        name: name
+        id: 1
+        type: type
+        dockerCompose:
+          composeFile: composeFile
+        version: version
+        zipFile:
+          zipFileUrl: zipFileUrl
+          commandLine: commandLine
+      properties:
+        id:
+          description: The id of the binary
+          type: integer
+        appId:
+          description: The app id of the binary
+          type: integer
+        name:
+          description: The app id of the binary
+          type: string
+        version:
+          description: The version of the binary
+          type: string
+        type:
+          description: The type of the binary
+          type: string
+        os:
+          $ref: '#/components/schemas/OperatingSystem'
+        ready:
+          description: Indicates whether the binary is ready for use.
+          type: boolean
+        configTemplates:
+          description: The config templates of the binary
+          items:
+            $ref: '#/components/schemas/ConfigTemplate'
+          type: array
+        dockerImage:
+          $ref: '#/components/schemas/DockerImage'
+        dockerCompose:
+          $ref: '#/components/schemas/DockerCompose'
+        zipFile:
+          $ref: '#/components/schemas/ZipFile'
+      required:
+      - appId
+      - id
+      - name
+      - os
+      - ready
+      - type
+      - version
+      title: Binary
+    BinaryCollection:
+      items:
+        $ref: '#/components/schemas/Binary'
+      type: array
+    BinaryType:
+      enum:
+      - zipFile
+      - dockerImage
+      - dockerCompose
+      - steam
+      title: BinaryType
+      type: string
+    ConfigFile:
+      example:
+        name: name
+        content: content
+        target: target
+      properties:
+        name:
+          description: The name of the config file
+          type: string
+        target:
+          description: The path in the container
+          type: string
+        content:
+          description: The content of the config file
+          type: string
+      required:
+      - content
+      - name
+      - target
+      title: ConfigFile
+    ConfigTemplate:
+      example:
+        name: name
+        id: id
+        content: content
+        binaryId: binaryId
+      properties:
+        id:
+          description: The id of the config template
+          type: string
+        binaryId:
+          description: The binary id of the config template
+          type: string
+        name:
+          description: The name of the config template
+          type: string
+        content:
+          description: The path in the container
+          type: string
+      required:
+      - binaryId
+      - content
+      - id
+      - name
+      title: ConfigTemplate
+    Constraints:
+      example:
+        country: country
+        city: city
+      properties:
+        country:
+          description: The country where the server should be placed - it defines
+            a region as a fallback if no free resources are available in the city
+          type: string
+        city:
+          description: The city where the server should be placed
+          type: string
+      required:
+      - city
+      - country
+      title: Constraints
+    DockerBackupCollection:
+      items:
+        $ref: '#/components/schemas/Backup'
+      type: array
+    DockerCompose:
+      example:
+        composeFile: composeFile
+      properties:
+        composeFile:
+          description: The content of the docker compose file
+          type: string
+      required:
+      - composeFile
+      title: DockerCompose
+    DockerImage:
+      example:
+        imageName: imageName
+        registryId: 1
+      properties:
+        imageName:
+          description: The name of the docker image
+          type: string
+        registryId:
+          description: The id of the registry to load the image
+          type: integer
+      required:
+      - imageName
+      - registryId
+      title: DockerImage
+    DockerRegistry:
+      example:
+        password: password
+        name: name
+        id: 0
+        type: null
+        accessToken: accessToken
+        url: https://openapi-generator.tech
+        username: username
+        instanceUrl: https://openapi-generator.tech
+      properties:
+        id:
+          description: The ID of the registry
+          type: integer
+        type:
+          $ref: '#/components/schemas/DockerRegistryType'
+        name:
+          description: The name of the registry
+          type: string
+        username:
+          description: The username to use for authentication
+          nullable: true
+          type: string
+        password:
+          description: The password to use for authentication
+          nullable: true
+          type: string
+        url:
+          description: The URL of the registry
+          format: uri
+          type: string
+        accessToken:
+          description: The access token to use for authentication
+          nullable: true
+          type: string
+        instanceUrl:
+          description: The URL of the instance
+          format: uri
+          nullable: true
+          type: string
+      required:
+      - accessToken
+      - id
+      - instanceUrl
+      - name
+      - password
+      - type
+      - url
+      - username
+      title: DockerRegistry
+    DockerRegistryCollection:
+      items:
+        $ref: '#/components/schemas/DockerRegistry'
+      type: array
+    DockerRegistryType:
+      enum:
+      - dockerhub
+      - github
+      - gitlab
+      - awsecr
+      - azure
+      - custom
+      - default
+      - proget
+      - quay
+      title: DockerRegistryType
+      type: string
+    DockerTaskStatus:
+      example:
+        err: err
+        state: state
+        message: message
+        timestamp: timestamp
+      properties:
+        state:
+          description: The state of the task
+          type: string
+        message:
+          description: The message from the task
+          type: string
+        err:
+          description: The error from the task
+          nullable: true
+          type: string
+        timestamp:
+          description: The timestamp of the status request
+          type: string
+      required:
+      - err
+      - message
+      - state
+      - timestamp
+      title: DockerTaskStatus
+    EnvironmentVariable:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          description: The key of the environment variable
+          type: string
+        value:
+          description: The value of the environment variable
+          nullable: true
+          type: string
+      required:
+      - key
+      - value
+      title: EnvironmentVariable
+    EnvironmentVariableDefinition:
+      example:
+        variable: variable
+        type: null
+        value: value
+        key: key
+      properties:
+        type:
+          $ref: '#/components/schemas/EnvironmentVariableType'
+        key:
+          description: The key of the variable
+          type: string
+        value:
+          description: The value of the variable
+          type: string
+        variable:
+          description: The variable definition of the environment variable
+          type: string
+      required:
+      - key
+      - type
+      title: EnvironmentVariableDefinition
+    EnvironmentVariableType:
+      enum:
+      - static
+      - system
+      - port
+      title: EnvironmentVariableType
+      type: string
+    Location:
+      example:
+        continent: continent
+        country: country
+        city: city
+      properties:
+        city:
+          description: City
+          type: string
+        continent:
+          description: Continent
+          type: string
+        country:
+          description: Country
+          type: string
+      required:
+      - city
+      - continent
+      - country
+      title: Location
+    LocationCollection:
+      items:
+        $ref: '#/components/schemas/Location'
+      type: array
+    Mount:
+      example:
+        readOnly: true
+        target: target
+      properties:
+        target:
+          description: The path in the container
+          type: string
+        readOnly:
+          description: Whether this mount point is read only
+          type: boolean
+      required:
+      - readOnly
+      - target
+      title: Mount
+    OperatingSystem:
+      enum:
+      - windows
+      - linux
+      title: OperatingSystem
+      type: string
+    Placement:
+      example:
+        constraints:
+          country: country
+          city: city
+      properties:
+        constraints:
+          $ref: '#/components/schemas/Constraints'
+      required:
+      - constraints
+      title: Placement
+    Port:
+      example:
+        protocol: null
+        publishedPort: 5
+        name: name
+        publishMode: null
+        targetPort: 5
+      properties:
+        name:
+          description: The name of the port
+          type: string
+        protocol:
+          $ref: '#/components/schemas/Protocol'
+        targetPort:
+          description: The port to expose
+          type: integer
+        publishedPort:
+          description: Published Port Where the port is mapped to
+          type: integer
+        publishMode:
+          $ref: '#/components/schemas/PublishMode'
+      required:
+      - name
+      - protocol
+      - publishMode
+      - publishedPort
+      - targetPort
+      title: Port
+    PortDefinition:
+      example:
+        name: name
+        publishMode: null
+        protocols:
+        - null
+        - null
+        targetPort: 7
+      properties:
+        name:
+          description: The name of the server config
+          type: string
+        protocols:
+          description: The protocols to expose
+          items:
+            $ref: '#/components/schemas/Protocol'
+          type: array
+        targetPort:
+          description: The port to expose
+          type: integer
+        publishMode:
+          $ref: '#/components/schemas/PublishMode'
+      required:
+      - name
+      - protocols
+      - publishMode
+      - targetPort
+      title: PortDefinition
+    Protocol:
+      enum:
+      - tcp
+      - udp
+      title: Protocol
+      type: string
+    PublishMode:
+      enum:
+      - host
+      - ingress
+      title: PublishMode
+      type: string
+    ResourceAllocations:
+      example:
+        reservations:
+          memory: 4.145608029883936
+          cpu: 2.027123023002322
+        limits:
+          memory: 4.145608029883936
+          cpu: 2.027123023002322
+      properties:
+        limits:
+          $ref: '#/components/schemas/Resources'
+        reservations:
+          $ref: '#/components/schemas/Resources'
+      required:
+      - limits
+      - reservations
+      title: ResourceAllocations
+    Resources:
+      example:
+        memory: 4.145608029883936
+        cpu: 2.027123023002322
+      properties:
+        cpu:
+          description: The amount of cpu to allocate in cores
+          type: number
+        memory:
+          description: The amount of memory to allocate in GB
+          type: number
+      required:
+      - cpu
+      - memory
+      title: Resources
+    RestartPolicy:
+      example:
+        condition: null
+      properties:
+        condition:
+          $ref: '#/components/schemas/RestartPolicyCondition'
+      required:
+      - condition
+      title: RestartPolicy
+    RestartPolicyCondition:
+      enum:
+      - none
+      - any
+      - on-failure
+      title: RestartPolicyCondition
+      type: string
+    Server:
+      example:
+        backup:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          awsRegion: awsRegion
+          restoredAt: 2000-01-23T04:56:07.000+00:00
+          archiveName: archiveName
+          name: name
+          backupMethod: null
+        instance: 1
+        resources:
+          reservations:
+            memory: 4.145608029883936
+            cpu: 2.027123023002322
+          limits:
+            memory: 4.145608029883936
+            cpu: 2.027123023002322
+        env:
+          key:
+            value: value
+            key: key
+        ports:
+          key:
+            protocol: null
+            publishedPort: 5
+            name: name
+            publishMode: null
+            targetPort: 5
+        restartPolicy:
+          condition: null
+        serverConfig:
+          notes: notes
+          resources:
+            reservations:
+              memory: 4.145608029883936
+              cpu: 2.027123023002322
+            limits:
+              memory: 4.145608029883936
+              cpu: 2.027123023002322
+          mounts:
+          - readOnly: true
+            target: target
+          - readOnly: true
+            target: target
+          env:
+          - variable: variable
+            type: null
+            value: value
+            key: key
+          - variable: variable
+            type: null
+            value: value
+            key: key
+          ports:
+          - name: name
+            publishMode: null
+            protocols:
+            - null
+            - null
+            targetPort: 7
+          - name: name
+            publishMode: null
+            protocols:
+            - null
+            - null
+            targetPort: 7
+          restartPolicy:
+            condition: null
+          command: command
+          args: args
+          configFiles:
+          - name: name
+            content: content
+            target: target
+          - name: name
+            content: content
+            target: target
+          appId: 3
+          binary:
+            dockerImage:
+              imageName: imageName
+              registryId: 1
+            os: null
+            configTemplates:
+            - name: name
+              id: id
+              content: content
+              binaryId: binaryId
+            - name: name
+              id: id
+              content: content
+              binaryId: binaryId
+            ready: true
+            appId: 1
+            name: name
+            id: 1
+            type: type
+            dockerCompose:
+              composeFile: composeFile
+            version: version
+            zipFile:
+              zipFileUrl: zipFileUrl
+              commandLine: commandLine
+          name: name
+          id: 7
+          binaryId: 9
+        appLocationSettingId: 6
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        location:
+          continent: continent
+          country: country
+          city: city
+        id: 0
+        addr: addr
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+        status:
+          err: err
+          state: state
+          message: message
+          timestamp: timestamp
+      properties:
+        id:
+          description: The ID of the service
+          type: integer
+        appLocationSettingId:
+          description: The ID of the location setting
+          type: integer
+        instance:
+          description: The ID of the instance
+          type: integer
+        addr:
+          description: The IP address of the node
+          format: ipv4
+          nullable: true
+          type: string
+        createdAt:
+          description: When the service was created
+          format: date-time
+          type: string
+        updatedAt:
+          description: When the service was last updated
+          format: date-time
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        env:
+          additionalProperties:
+            $ref: '#/components/schemas/EnvironmentVariable'
+          description: The environment variables of the service
+        ports:
+          additionalProperties:
+            $ref: '#/components/schemas/Port'
+          description: The port definitions of the service
+        restartPolicy:
+          $ref: '#/components/schemas/RestartPolicy'
+        resources:
+          $ref: '#/components/schemas/ResourceAllocations'
+        status:
+          $ref: '#/components/schemas/DockerTaskStatus'
+        serverConfig:
+          $ref: '#/components/schemas/ServerConfig'
+        backup:
+          $ref: '#/components/schemas/Backup'
+      required:
+      - addr
+      - appLocationSettingId
+      - createdAt
+      - env
+      - id
+      - instance
+      - location
+      - ports
+      - resources
+      - restartPolicy
+      - serverConfig
+      - status
+      - updatedAt
+      title: Server
+    ServerCollection:
+      items:
+        $ref: '#/components/schemas/Server'
+      type: array
+    ServerConfig:
+      example:
+        notes: notes
+        resources:
+          reservations:
+            memory: 4.145608029883936
+            cpu: 2.027123023002322
+          limits:
+            memory: 4.145608029883936
+            cpu: 2.027123023002322
+        mounts:
+        - readOnly: true
+          target: target
+        - readOnly: true
+          target: target
+        env:
+        - variable: variable
+          type: null
+          value: value
+          key: key
+        - variable: variable
+          type: null
+          value: value
+          key: key
+        ports:
+        - name: name
+          publishMode: null
+          protocols:
+          - null
+          - null
+          targetPort: 7
+        - name: name
+          publishMode: null
+          protocols:
+          - null
+          - null
+          targetPort: 7
+        restartPolicy:
+          condition: null
+        command: command
+        args: args
+        configFiles:
+        - name: name
+          content: content
+          target: target
+        - name: name
+          content: content
+          target: target
+        appId: 3
+        binary:
+          dockerImage:
+            imageName: imageName
+            registryId: 1
+          os: null
+          configTemplates:
+          - name: name
+            id: id
+            content: content
+            binaryId: binaryId
+          - name: name
+            id: id
+            content: content
+            binaryId: binaryId
+          ready: true
+          appId: 1
+          name: name
+          id: 1
+          type: type
+          dockerCompose:
+            composeFile: composeFile
+          version: version
+          zipFile:
+            zipFileUrl: zipFileUrl
+            commandLine: commandLine
+        name: name
+        id: 7
+        binaryId: 9
+      properties:
+        id:
+          description: The id of the server configuration
+          type: integer
+        binaryId:
+          description: The binary id of the server configuration
+          type: integer
+        appId:
+          description: The app id of the server configuration
+          type: integer
+        name:
+          description: The name of the server config
+          type: string
+        command:
+          description: The command to run in the container (overrides ENTRYPOINT of
+            the Dockerfile)
+          nullable: true
+          type: string
+        args:
+          description: The arguments to pass to the command (overrides CMD of the
+            Dockerfile)
+          nullable: true
+          type: string
+        notes:
+          description: The notes of the server config - to keep track of things and
+            to inform colleagues
+          nullable: true
+          type: string
+        restartPolicy:
+          $ref: '#/components/schemas/RestartPolicy'
+        resources:
+          $ref: '#/components/schemas/ResourceAllocations'
+        env:
+          description: The environment variable definitions to be used in this config
+          items:
+            $ref: '#/components/schemas/EnvironmentVariableDefinition'
+          type: array
+        mounts:
+          description: The mounts to use
+          items:
+            $ref: '#/components/schemas/Mount'
+          type: array
+        ports:
+          description: The ports to expose
+          items:
+            $ref: '#/components/schemas/PortDefinition'
+          type: array
+        configFiles:
+          description: The config files to use
+          items:
+            $ref: '#/components/schemas/ConfigFile'
+          type: array
+        binary:
+          $ref: '#/components/schemas/Binary'
+      required:
+      - appId
+      - args
+      - binaryId
+      - command
+      - configFiles
+      - env
+      - id
+      - mounts
+      - name
+      - notes
+      - ports
+      - resources
+      - restartPolicy
+      title: ServerConfig
+    ServerConfigCollection:
+      items:
+        $ref: '#/components/schemas/ServerConfig'
+      type: array
+    ServiceLogs:
+      example:
+        logs: logs
+      properties:
+        logs:
+          description: The logs as a string with newlines
+          type: string
+      required:
+      - logs
+      title: ServiceLogs
+    SteamWorks:
+      properties:
+        steamAppId:
+          description: The Steam App ID
+          type: string
+        branch:
+          description: The branch to use
+          type: string
+        password:
+          description: The password to use
+          type: string
+      required:
+      - branch
+      - password
+      - steamAppId
+      title: SteamWorks
+    ZipFile:
+      example:
+        zipFileUrl: zipFileUrl
+        commandLine: commandLine
+      properties:
+        zipFileUrl:
+          description: The URL to the ZIP file
+          type: string
+        commandLine:
+          description: The command line to use
+          type: string
+      required:
+      - commandLine
+      - zipFileUrl
+      title: ZipFile
+    updateAppLocationSetting_request:
+      properties:
+        name:
+          description: The name of the location setting
+          type: string
+        serverConfigId:
+          description: The id of the server configuration that should be deployed
+          type: integer
+        autoScalerEnabled:
+          description: Whether auto scaler is enabled
+          type: boolean
+        autoScalerMin:
+          description: The minimum number of instances that should run at the specific
+            location
+          minimum: 0
+          type: integer
+        autoScalerMax:
+          description: The maximum number of instances that should run at the specific
+            location
+          type: integer
+        numInstances:
+          description: The number of instances that should run at the specific location
+          minimum: 1
+          type: integer
+        placement:
+          $ref: '#/components/schemas/Placement'
+      required:
+      - autoScalerEnabled
+      - name
+      - numInstances
+      - serverConfigId
+    createAppLocationSetting_request:
+      properties:
+        name:
+          description: The name of the location setting
+          type: string
+        serverConfigId:
+          description: The id of the server configuration that should be deployed
+          type: integer
+        autoScalerEnabled:
+          description: Whether auto scaler is enabled
+          type: boolean
+        autoScalerMin:
+          description: The minimum number of instances that should run at the specific
+            location
+          minimum: 0
+          nullable: true
+          type: integer
+        autoScalerMax:
+          description: The maximum number of instances that should run at the specific
+            location
+          nullable: true
+          type: integer
+        numInstances:
+          description: The number of instances that should run at the specific location
+          minimum: 1
+          type: integer
+        placement:
+          $ref: '#/components/schemas/Placement'
+      required:
+      - autoScalerEnabled
+      - name
+      - numInstances
+      - serverConfigId
+    createApp_request:
+      properties:
+        name:
+          description: The name of the app
+          type: string
+      required:
+      - name
+    getAuthToken_request:
+      properties:
+        email:
+          description: The email of the user
+          format: email
+          type: string
+        password:
+          description: The password of the user
+          type: string
+        sid:
+          description: The fusion session id of the user
+          example: 1234567890ABCDEFG
+          type: string
+      required:
+      - email
+      - password
+      - sid
+    createBinary_request:
+      properties:
+        name:
+          description: The name of the binary
+          type: string
+        version:
+          description: The version of the binary
+          type: string
+        type:
+          $ref: '#/components/schemas/BinaryType'
+        os:
+          $ref: '#/components/schemas/OperatingSystem'
+        dockerCompose:
+          $ref: '#/components/schemas/DockerCompose'
+        zipFile:
+          $ref: '#/components/schemas/ZipFile'
+        steam:
+          $ref: '#/components/schemas/SteamWorks'
+        dockerImage:
+          $ref: '#/components/schemas/DockerImage'
+      required:
+      - name
+      - os
+      - type
+      - version
+    createDockerRegistry_request:
+      properties:
+        type:
+          $ref: '#/components/schemas/DockerRegistryType'
+        name:
+          description: The name of the docker registry
+          type: string
+        url:
+          description: The URL of the docker registry
+          nullable: true
+          type: string
+        instanceUrl:
+          description: The URL of the gitlab instance
+          nullable: true
+          type: string
+        username:
+          description: The username to use for authentication
+          nullable: true
+          type: string
+        accessToken:
+          description: The access token to use for authentication
+          nullable: true
+          type: string
+        password:
+          description: The password to use for authentication
+          nullable: true
+          type: string
+      required:
+      - name
+      - type
+    updateDockerRegistry_request:
+      properties:
+        type:
+          $ref: '#/components/schemas/DockerRegistryType'
+        name:
+          description: The name of the docker registry
+          type: string
+        url:
+          description: The URL of the docker registry
+          nullable: true
+          type: string
+        instanceUrl:
+          description: The URL of the instance
+          nullable: true
+          type: string
+        username:
+          description: The username to use for authentication
+          nullable: true
+          type: string
+        accessToken:
+          description: The access token to use for authentication
+          nullable: true
+          type: string
+        password:
+          description: The password to use for authentication
+          nullable: true
+          type: string
+      required:
+      - name
+      - type
+    createBackup_request:
+      properties:
+        name:
+          description: The name of the backup
+          type: string
+      required:
+      - name
+    createServerConfig_request:
+      properties:
+        name:
+          description: The name of the server configuration
+          type: string
+        args:
+          description: The arguments to pass to the command (overrides CMD of the
+            Dockerfile)
+          example: /usr/local/etc/enshrouded/bootstrap
+          nullable: true
+          type: string
+        command:
+          description: The command to run in the container (overrides ENTRYPOINT of
+            the Dockerfile)
+          nullable: true
+          type: string
+        notes:
+          description: The notes of the server config - to keep track of things and
+            to inform colleagues
+          nullable: true
+          type: string
+        binaryId:
+          description: The binary id of the server configuration
+          type: integer
+        configFiles:
+          description: The config files used in this server configuration
+          items:
+            $ref: '#/components/schemas/ConfigFile'
+          type: array
+        resources:
+          $ref: '#/components/schemas/ResourceAllocations'
+        restartPolicy:
+          $ref: '#/components/schemas/RestartPolicy'
+        env:
+          description: The environment variables used in this server configuration
+          items:
+            $ref: '#/components/schemas/EnvironmentVariableDefinition'
+          type: array
+        mounts:
+          description: The mounts used in this server configuration
+          items:
+            $ref: '#/components/schemas/Mount'
+          type: array
+        ports:
+          description: The port definitions
+          items:
+            $ref: '#/components/schemas/PortDefinition'
+          type: array
+      required:
+      - binaryId
+      - name
+

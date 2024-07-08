@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **int** | The ID of the service | 
 **AppLocationSettingId** | **int** | The ID of the location setting | 
 **Instance** | **int** | The ID of the instance | 
+**Name** | **string** |  | 
 **Addr** | **string** | The IP address of the node | 
 **CreatedAt** | **DateTime** | When the service was created | 
 **UpdatedAt** | **DateTime** | When the service was last updated | 

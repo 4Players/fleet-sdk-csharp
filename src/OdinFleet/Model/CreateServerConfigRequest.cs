@@ -46,12 +46,13 @@ namespace OdinFleet.Model
         /// <param name="notes">The notes of the server config - to keep track of things and to inform colleagues.</param>
         /// <param name="binaryId">The binary id of the server configuration (required).</param>
         /// <param name="configFiles">The config files used in this server configuration.</param>
+        /// <param name="secretFiles">The secret files used in this server configuration.</param>
         /// <param name="resources">The resources used in this server configuration.</param>
         /// <param name="restartPolicy">The restart policy of the server configuration.</param>
         /// <param name="env">The environment variables used in this server configuration.</param>
         /// <param name="mounts">The mounts used in this server configuration.</param>
         /// <param name="ports">The port definitions.</param>
-        public CreateServerConfigRequest(string name = default(string), string args = default(string), string command = default(string), string notes = default(string), int binaryId = default(int), List<ConfigFile> configFiles = default(List<ConfigFile>), ResourceAllocations resources = default(ResourceAllocations), RestartPolicy restartPolicy = default(RestartPolicy), List<EnvironmentVariableDefinition> env = default(List<EnvironmentVariableDefinition>), List<Mount> mounts = default(List<Mount>), List<PortDefinition> ports = default(List<PortDefinition>))
+        public CreateServerConfigRequest(string name = default(string), string args = default(string), string command = default(string), string notes = default(string), int binaryId = default(int), List<ConfigFile> configFiles = default(List<ConfigFile>), List<SecretFile> secretFiles = default(List<SecretFile>), ResourceAllocations resources = default(ResourceAllocations), RestartPolicy restartPolicy = default(RestartPolicy), List<EnvironmentVariableDefinition> env = default(List<EnvironmentVariableDefinition>), List<Mount> mounts = default(List<Mount>), List<PortDefinition> ports = default(List<PortDefinition>))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -64,6 +65,7 @@ namespace OdinFleet.Model
             this.Command = command;
             this.Notes = notes;
             this.ConfigFiles = configFiles;
+            this.SecretFiles = secretFiles;
             this.Resources = resources;
             this.RestartPolicy = restartPolicy;
             this.Env = env;
@@ -115,6 +117,13 @@ namespace OdinFleet.Model
         public List<ConfigFile> ConfigFiles { get; set; }
 
         /// <summary>
+        /// The secret files used in this server configuration
+        /// </summary>
+        /// <value>The secret files used in this server configuration</value>
+        [DataMember(Name = "secretFiles", EmitDefaultValue = false)]
+        public List<SecretFile> SecretFiles { get; set; }
+
+        /// <summary>
         /// The resources used in this server configuration
         /// </summary>
         /// <value>The resources used in this server configuration</value>
@@ -163,6 +172,7 @@ namespace OdinFleet.Model
             sb.Append("  Notes: ").Append(Notes).Append("\n");
             sb.Append("  BinaryId: ").Append(BinaryId).Append("\n");
             sb.Append("  ConfigFiles: ").Append(ConfigFiles).Append("\n");
+            sb.Append("  SecretFiles: ").Append(SecretFiles).Append("\n");
             sb.Append("  Resources: ").Append(Resources).Append("\n");
             sb.Append("  RestartPolicy: ").Append(RestartPolicy).Append("\n");
             sb.Append("  Env: ").Append(Env).Append("\n");

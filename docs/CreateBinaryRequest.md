@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Os** | **ModelOperatingSystem** | The operating system of the binary | 
 **DockerCompose** | [**DockerCompose**](DockerCompose.md) | The docker compose settings | [optional] 
 **ZipFile** | [**ZipFile**](ZipFile.md) | The zip file settings | [optional] 
-**Steam** | [**SteamWorks**](SteamWorks.md) | The steam settings | [optional] 
+**Steam** | [**Steam**](Steam.md) | The steam settings | [optional] 
 **DockerImage** | [**DockerImage**](DockerImage.md) | The docker image settings | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

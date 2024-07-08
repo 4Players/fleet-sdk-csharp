@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Notes** | **string** | The notes of the server config - to keep track of things and to inform colleagues | [optional] 
 **BinaryId** | **int** | The binary id of the server configuration | 
 **ConfigFiles** | [**List&lt;ConfigFile&gt;**](ConfigFile.md) | The config files used in this server configuration | [optional] 
+**SecretFiles** | [**List&lt;SecretFile&gt;**](SecretFile.md) | The secret files used in this server configuration | [optional] 
 **Resources** | [**ResourceAllocations**](ResourceAllocations.md) | The resources used in this server configuration | [optional] 
 **RestartPolicy** | [**RestartPolicy**](RestartPolicy.md) | The restart policy of the server configuration | [optional] 
 **Env** | [**List&lt;EnvironmentVariableDefinition&gt;**](EnvironmentVariableDefinition.md) | The environment variables used in this server configuration | [optional] 

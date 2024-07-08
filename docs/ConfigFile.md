@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the config file | 
 **Target** | **string** | The path in the container | 
 **Content** | **string** | The content of the config file | 
 

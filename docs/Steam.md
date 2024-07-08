@@ -1,11 +1,12 @@
-# OdinFleet.Model.Resources
+# OdinFleet.Model.Steam
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Cpu** | **int** | The amount of cpu to allocate in cores | 
-**Memory** | **int** | The amount of memory to allocate in GB | 
+**SteamAppId** | **int** | The Steam App ID | 
+**Branch** | **string** | The branch to use | 
+**Password** | **string** | The password to use | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

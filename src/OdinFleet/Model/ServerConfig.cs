@@ -53,8 +53,9 @@ namespace OdinFleet.Model
         /// <param name="mounts">The mounts to use (required).</param>
         /// <param name="ports">The ports to expose (required).</param>
         /// <param name="configFiles">The config files to use (required).</param>
+        /// <param name="secretFiles">The secret files to use (required).</param>
         /// <param name="binary">The image that is used in this server config.</param>
-        public ServerConfig(int id = default(int), int binaryId = default(int), int appId = default(int), string name = default(string), string command = default(string), string args = default(string), string notes = default(string), RestartPolicy restartPolicy = default(RestartPolicy), ResourceAllocations resources = default(ResourceAllocations), List<EnvironmentVariableDefinition> env = default(List<EnvironmentVariableDefinition>), List<Mount> mounts = default(List<Mount>), List<PortDefinition> ports = default(List<PortDefinition>), List<ConfigFile> configFiles = default(List<ConfigFile>), Binary binary = default(Binary))
+        public ServerConfig(int id = default(int), int binaryId = default(int), int appId = default(int), string name = default(string), string command = default(string), string args = default(string), string notes = default(string), RestartPolicy restartPolicy = default(RestartPolicy), ResourceAllocations resources = default(ResourceAllocations), List<EnvironmentVariableDefinition> env = default(List<EnvironmentVariableDefinition>), List<Mount> mounts = default(List<Mount>), List<PortDefinition> ports = default(List<PortDefinition>), List<ConfigFile> configFiles = default(List<ConfigFile>), List<SecretFile> secretFiles = default(List<SecretFile>), Binary binary = default(Binary))
         {
             this.Id = id;
             this.BinaryId = binaryId;
@@ -119,6 +120,12 @@ namespace OdinFleet.Model
                 throw new ArgumentNullException("configFiles is a required property for ServerConfig and cannot be null");
             }
             this.ConfigFiles = configFiles;
+            // to ensure "secretFiles" is required (not null)
+            if (secretFiles == null)
+            {
+                throw new ArgumentNullException("secretFiles is a required property for ServerConfig and cannot be null");
+            }
+            this.SecretFiles = secretFiles;
             this.Binary = binary;
         }
 
@@ -214,6 +221,13 @@ namespace OdinFleet.Model
         public List<ConfigFile> ConfigFiles { get; set; }
 
         /// <summary>
+        /// The secret files to use
+        /// </summary>
+        /// <value>The secret files to use</value>
+        [DataMember(Name = "secretFiles", IsRequired = true, EmitDefaultValue = true)]
+        public List<SecretFile> SecretFiles { get; set; }
+
+        /// <summary>
         /// The image that is used in this server config
         /// </summary>
         /// <value>The image that is used in this server config</value>
@@ -241,6 +255,7 @@ namespace OdinFleet.Model
             sb.Append("  Mounts: ").Append(Mounts).Append("\n");
             sb.Append("  Ports: ").Append(Ports).Append("\n");
             sb.Append("  ConfigFiles: ").Append(ConfigFiles).Append("\n");
+            sb.Append("  SecretFiles: ").Append(SecretFiles).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

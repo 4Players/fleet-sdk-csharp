@@ -34,6 +34,13 @@ namespace OdinFleet.Model
     {
 
         /// <summary>
+        /// The type of the binary
+        /// </summary>
+        /// <value>The type of the binary</value>
+        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
+        public BinaryType Type { get; set; }
+
+        /// <summary>
         /// The operating system of the binary
         /// </summary>
         /// <value>The operating system of the binary</value>
@@ -58,7 +65,8 @@ namespace OdinFleet.Model
         /// <param name="dockerImage">The docker image of the binary.</param>
         /// <param name="dockerCompose">The docker compose file of the binary.</param>
         /// <param name="zipFile">The ZIP file of the binary.</param>
-        public Binary(int id = default(int), int appId = default(int), string name = default(string), string varVersion = default(string), string type = default(string), ModelOperatingSystem os = default(ModelOperatingSystem), bool ready = default(bool), List<ConfigTemplate> configTemplates = default(List<ConfigTemplate>), DockerImage dockerImage = default(DockerImage), DockerCompose dockerCompose = default(DockerCompose), ZipFile zipFile = default(ZipFile))
+        /// <param name="steam">The steam of the binary.</param>
+        public Binary(int id = default(int), int appId = default(int), string name = default(string), string varVersion = default(string), BinaryType type = default(BinaryType), ModelOperatingSystem os = default(ModelOperatingSystem), bool ready = default(bool), List<ConfigTemplate> configTemplates = default(List<ConfigTemplate>), DockerImage dockerImage = default(DockerImage), DockerCompose dockerCompose = default(DockerCompose), ZipFile zipFile = default(ZipFile), Steam steam = default(Steam))
         {
             this.Id = id;
             this.AppId = appId;
@@ -74,11 +82,6 @@ namespace OdinFleet.Model
                 throw new ArgumentNullException("varVersion is a required property for Binary and cannot be null");
             }
             this.VarVersion = varVersion;
-            // to ensure "type" is required (not null)
-            if (type == null)
-            {
-                throw new ArgumentNullException("type is a required property for Binary and cannot be null");
-            }
             this.Type = type;
             this.Os = os;
             this.Ready = ready;
@@ -86,6 +89,7 @@ namespace OdinFleet.Model
             this.DockerImage = dockerImage;
             this.DockerCompose = dockerCompose;
             this.ZipFile = zipFile;
+            this.Steam = steam;
         }
 
         /// <summary>
@@ -115,13 +119,6 @@ namespace OdinFleet.Model
         /// <value>The version of the binary</value>
         [DataMember(Name = "version", IsRequired = true, EmitDefaultValue = true)]
         public string VarVersion { get; set; }
-
-        /// <summary>
-        /// The type of the binary
-        /// </summary>
-        /// <value>The type of the binary</value>
-        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
-        public string Type { get; set; }
 
         /// <summary>
         /// Indicates whether the binary is ready for use.
@@ -159,6 +156,13 @@ namespace OdinFleet.Model
         public ZipFile ZipFile { get; set; }
 
         /// <summary>
+        /// The steam of the binary
+        /// </summary>
+        /// <value>The steam of the binary</value>
+        [DataMember(Name = "steam", EmitDefaultValue = false)]
+        public Steam Steam { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -177,6 +181,7 @@ namespace OdinFleet.Model
             sb.Append("  DockerImage: ").Append(DockerImage).Append("\n");
             sb.Append("  DockerCompose: ").Append(DockerCompose).Append("\n");
             sb.Append("  ZipFile: ").Append(ZipFile).Append("\n");
+            sb.Append("  Steam: ").Append(Steam).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

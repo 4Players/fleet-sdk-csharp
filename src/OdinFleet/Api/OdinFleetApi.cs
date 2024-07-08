@@ -354,6 +354,9 @@ namespace OdinFleet.Api
         /// <summary>
         /// Show all binaries
         /// </summary>
+        /// <remarks>
+        /// Eager load file types and config templates to reduce the number of queries.
+        /// </remarks>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
         /// <returns>List&lt;Binary&gt;</returns>
@@ -363,7 +366,7 @@ namespace OdinFleet.Api
         /// Show all binaries
         /// </summary>
         /// <remarks>
-        /// 
+        /// Eager load file types and config templates to reduce the number of queries.
         /// </remarks>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -1112,7 +1115,7 @@ namespace OdinFleet.Api
         /// Show all binaries
         /// </summary>
         /// <remarks>
-        /// 
+        /// Eager load file types and config templates to reduce the number of queries.
         /// </remarks>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -1124,7 +1127,7 @@ namespace OdinFleet.Api
         /// Show all binaries
         /// </summary>
         /// <remarks>
-        /// 
+        /// Eager load file types and config templates to reduce the number of queries.
         /// </remarks>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -3619,7 +3622,7 @@ namespace OdinFleet.Api
         }
 
         /// <summary>
-        /// Show all binaries 
+        /// Show all binaries Eager load file types and config templates to reduce the number of queries.
         /// </summary>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -3631,7 +3634,7 @@ namespace OdinFleet.Api
         }
 
         /// <summary>
-        /// Show all binaries 
+        /// Show all binaries Eager load file types and config templates to reduce the number of queries.
         /// </summary>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -3670,7 +3673,7 @@ namespace OdinFleet.Api
         }
 
         /// <summary>
-        /// Show all binaries 
+        /// Show all binaries Eager load file types and config templates to reduce the number of queries.
         /// </summary>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>
@@ -3683,7 +3686,7 @@ namespace OdinFleet.Api
         }
 
         /// <summary>
-        /// Show all binaries 
+        /// Show all binaries Eager load file types and config templates to reduce the number of queries.
         /// </summary>
         /// <exception cref="OdinFleet.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="app">The app ID</param>

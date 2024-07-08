@@ -257,10 +257,10 @@ namespace OdinFleet
         /// <param name="branch">The branch of the Steamworks binary (optional, default is null).</param>
         /// <param name="password">The password for the Steamworks binary (optional, default is null).</param>
         /// <returns>A Binary object representing the created Steamworks binary.</returns>
-        public Binary CreateSteamworksBinary(string name, string version, string steamAppId, string branch = default(string),
+        public Binary CreateSteamworksBinary(string name, string version, int steamAppId, string branch = default(string),
             string password = default(string))
         {
-            var createBinaryRequest = new CreateBinaryRequest(name, version, BinaryType.Steam, steam: new SteamWorks(steamAppId, branch, password));
+            var createBinaryRequest = new CreateBinaryRequest(name, version, BinaryType.Steam, steam: new Steam(steamAppId, branch, password));
             return _apiClientSync.CreateBinary(_appId, createBinaryRequest);
         }
 
@@ -273,10 +273,10 @@ namespace OdinFleet
         /// <param name="branch">The branch name of the binary. Optional, default is null.</param>
         /// <param name="password">The password of the binary. Optional, default is null.</param>
         /// <returns>A task representing the asynchronous operation. The task result contains the created Steamworks binary.</returns>
-        public async Task<Binary> CreateSteamworksBinaryAsync(string name, string version, string steamAppId, string branch = default(string),
+        public async Task<Binary> CreateSteamworksBinaryAsync(string name, string version, int steamAppId, string branch = default(string),
             string password = default(string))
         {
-            var createBinaryRequest = new CreateBinaryRequest(name, version, BinaryType.Steam, steam: new SteamWorks(steamAppId, branch, password));
+            var createBinaryRequest = new CreateBinaryRequest(name, version, BinaryType.Steam, steam: new Steam(steamAppId, branch, password));
             return await _apiClientAsync.CreateBinaryAsync(_appId, createBinaryRequest);
         }
 

@@ -62,7 +62,7 @@ namespace OdinFleet.Model
         /// <param name="zipFile">The zip file settings.</param>
         /// <param name="steam">The steam settings.</param>
         /// <param name="dockerImage">The docker image settings.</param>
-        public CreateBinaryRequest(string name = default(string), string varVersion = default(string), BinaryType type = default(BinaryType), ModelOperatingSystem os = default(ModelOperatingSystem), DockerCompose dockerCompose = default(DockerCompose), ZipFile zipFile = default(ZipFile), SteamWorks steam = default(SteamWorks), DockerImage dockerImage = default(DockerImage))
+        public CreateBinaryRequest(string name = default(string), string varVersion = default(string), BinaryType type = default(BinaryType), ModelOperatingSystem os = default(ModelOperatingSystem), DockerCompose dockerCompose = default(DockerCompose), ZipFile zipFile = default(ZipFile), Steam steam = default(Steam), DockerImage dockerImage = default(DockerImage))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -117,7 +117,7 @@ namespace OdinFleet.Model
         /// </summary>
         /// <value>The steam settings</value>
         [DataMember(Name = "steam", EmitDefaultValue = false)]
-        public SteamWorks Steam { get; set; }
+        public Steam Steam { get; set; }
 
         /// <summary>
         /// The docker image settings

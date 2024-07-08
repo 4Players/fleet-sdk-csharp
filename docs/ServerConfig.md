@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **Mounts** | [**List&lt;Mount&gt;**](Mount.md) | The mounts to use | 
 **Ports** | [**List&lt;PortDefinition&gt;**](PortDefinition.md) | The ports to expose | 
 **ConfigFiles** | [**List&lt;ConfigFile&gt;**](ConfigFile.md) | The config files to use | 
+**SecretFiles** | [**List&lt;SecretFile&gt;**](SecretFile.md) | The secret files to use | 
 **Binary** | [**Binary**](Binary.md) | The image that is used in this server config | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

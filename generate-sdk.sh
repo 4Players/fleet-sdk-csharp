@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+rm -r ./src/OdinFleet/Model
+
 # Download the current version of the OdinFleet API specification
 curl https://api.4np.4players.de/b2b/v1/docs/api.json > ./api.json
 

@@ -27,40 +27,35 @@ using OpenAPIDateConverter = OdinFleet.Client.OpenAPIDateConverter;
 namespace OdinFleet.Model
 {
     /// <summary>
-    /// SteamWorks
+    /// Steam
     /// </summary>
-    [DataContract(Name = "SteamWorks")]
-    public partial class SteamWorks : IValidatableObject
+    [DataContract(Name = "Steam")]
+    public partial class Steam : IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SteamWorks" /> class.
+        /// Initializes a new instance of the <see cref="Steam" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected SteamWorks() { }
+        protected Steam() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="SteamWorks" /> class.
+        /// Initializes a new instance of the <see cref="Steam" /> class.
         /// </summary>
         /// <param name="steamAppId">The Steam App ID (required).</param>
         /// <param name="branch">The branch to use (required).</param>
         /// <param name="password">The password to use (required).</param>
-        public SteamWorks(string steamAppId = default(string), string branch = default(string), string password = default(string))
+        public Steam(int steamAppId = default(int), string branch = default(string), string password = default(string))
         {
-            // to ensure "steamAppId" is required (not null)
-            if (steamAppId == null)
-            {
-                throw new ArgumentNullException("steamAppId is a required property for SteamWorks and cannot be null");
-            }
             this.SteamAppId = steamAppId;
             // to ensure "branch" is required (not null)
             if (branch == null)
             {
-                throw new ArgumentNullException("branch is a required property for SteamWorks and cannot be null");
+                throw new ArgumentNullException("branch is a required property for Steam and cannot be null");
             }
             this.Branch = branch;
             // to ensure "password" is required (not null)
             if (password == null)
             {
-                throw new ArgumentNullException("password is a required property for SteamWorks and cannot be null");
+                throw new ArgumentNullException("password is a required property for Steam and cannot be null");
             }
             this.Password = password;
         }
@@ -70,7 +65,7 @@ namespace OdinFleet.Model
         /// </summary>
         /// <value>The Steam App ID</value>
         [DataMember(Name = "steamAppId", IsRequired = true, EmitDefaultValue = true)]
-        public string SteamAppId { get; set; }
+        public int SteamAppId { get; set; }
 
         /// <summary>
         /// The branch to use
@@ -93,7 +88,7 @@ namespace OdinFleet.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class SteamWorks {\n");
+            sb.Append("class Steam {\n");
             sb.Append("  SteamAppId: ").Append(SteamAppId).Append("\n");
             sb.Append("  Branch: ").Append(Branch).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");

@@ -281,6 +281,8 @@ paths:
       - OdinFleet
   /v1/apps/{app}/binaries:
     get:
+      description: Eager load file types and config templates to reduce the number
+        of queries.
       operationId: getBinaries
       parameters:
       - description: The app ID
@@ -1167,14 +1169,19 @@ components:
             country: country
             city: city
         serverConfig:
+          secretFiles:
+          - content: content
+            target: target
+          - content: content
+            target: target
           notes: notes
           resources:
             reservations:
-              memory: 4.145608029883936
-              cpu: 2.027123023002322
+              memory: 4
+              cpu: 2
             limits:
-              memory: 4.145608029883936
-              cpu: 2.027123023002322
+              memory: 4
+              cpu: 2
           mounts:
           - readOnly: true
             target: target
@@ -1207,11 +1214,9 @@ components:
           command: command
           args: args
           configFiles:
-          - name: name
-            content: content
+          - content: content
             target: target
-          - name: name
-            content: content
+          - content: content
             target: target
           appId: 3
           binary:
@@ -1231,8 +1236,12 @@ components:
             ready: true
             appId: 1
             name: name
+            steam:
+              steamAppId: 6
+              password: password
+              branch: branch
             id: 1
-            type: type
+            type: null
             dockerCompose:
               composeFile: composeFile
             version: version
@@ -1374,8 +1383,12 @@ components:
         ready: true
         appId: 1
         name: name
+        steam:
+          steamAppId: 6
+          password: password
+          branch: branch
         id: 1
-        type: type
+        type: null
         dockerCompose:
           composeFile: composeFile
         version: version
@@ -1396,8 +1409,7 @@ components:
           description: The version of the binary
           type: string
         type:
-          description: The type of the binary
-          type: string
+          $ref: '#/components/schemas/BinaryType'
         os:
           $ref: '#/components/schemas/OperatingSystem'
         ready:
@@ -1414,6 +1426,8 @@ components:
           $ref: '#/components/schemas/DockerCompose'
         zipFile:
           $ref: '#/components/schemas/ZipFile'
+        steam:
+          $ref: '#/components/schemas/Steam'
       required:
       - appId
       - id
@@ -1437,13 +1451,9 @@ components:
       type: string
     ConfigFile:
       example:
-        name: name
         content: content
         target: target
       properties:
-        name:
-          description: The name of the config file
-          type: string
         target:
           description: The path in the container
           type: string
@@ -1452,7 +1462,6 @@ components:
           type: string
       required:
       - content
-      - name
       - target
       title: ConfigFile
     ConfigTemplate:
@@ -1790,11 +1799,11 @@ components:
     ResourceAllocations:
       example:
         reservations:
-          memory: 4.145608029883936
-          cpu: 2.027123023002322
+          memory: 4
+          cpu: 2
         limits:
-          memory: 4.145608029883936
-          cpu: 2.027123023002322
+          memory: 4
+          cpu: 2
       properties:
         limits:
           $ref: '#/components/schemas/Resources'
@@ -1806,15 +1815,15 @@ components:
       title: ResourceAllocations
     Resources:
       example:
-        memory: 4.145608029883936
-        cpu: 2.027123023002322
+        memory: 4
+        cpu: 2
       properties:
         cpu:
           description: The amount of cpu to allocate in cores
-          type: number
+          type: integer
         memory:
           description: The amount of memory to allocate in GB
-          type: number
+          type: integer
       required:
       - cpu
       - memory
@@ -1835,6 +1844,21 @@ components:
       - on-failure
       title: RestartPolicyCondition
       type: string
+    SecretFile:
+      example:
+        content: content
+        target: target
+      properties:
+        target:
+          description: The path in the container
+          type: string
+        content:
+          description: The content of the secret file
+          type: string
+      required:
+      - content
+      - target
+      title: SecretFile
     Server:
       example:
         backup:
@@ -1847,11 +1871,11 @@ components:
         instance: 1
         resources:
           reservations:
-            memory: 4.145608029883936
-            cpu: 2.027123023002322
+            memory: 4
+            cpu: 2
           limits:
-            memory: 4.145608029883936
-            cpu: 2.027123023002322
+            memory: 4
+            cpu: 2
         env:
           key:
             value: value
@@ -1866,14 +1890,19 @@ components:
         restartPolicy:
           condition: null
         serverConfig:
+          secretFiles:
+          - content: content
+            target: target
+          - content: content
+            target: target
           notes: notes
           resources:
             reservations:
-              memory: 4.145608029883936
-              cpu: 2.027123023002322
+              memory: 4
+              cpu: 2
             limits:
-              memory: 4.145608029883936
-              cpu: 2.027123023002322
+              memory: 4
+              cpu: 2
           mounts:
           - readOnly: true
             target: target
@@ -1906,11 +1935,9 @@ components:
           command: command
           args: args
           configFiles:
-          - name: name
-            content: content
+          - content: content
             target: target
-          - name: name
-            content: content
+          - content: content
             target: target
           appId: 3
           binary:
@@ -1930,8 +1957,12 @@ components:
             ready: true
             appId: 1
             name: name
+            steam:
+              steamAppId: 6
+              password: password
+              branch: branch
             id: 1
-            type: type
+            type: null
             dockerCompose:
               composeFile: composeFile
             version: version
@@ -1943,6 +1974,7 @@ components:
           binaryId: 9
         appLocationSettingId: 6
         createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
         location:
           continent: continent
           country: country
@@ -1965,6 +1997,8 @@ components:
         instance:
           description: The ID of the instance
           type: integer
+        name:
+          type: string
         addr:
           description: The IP address of the node
           format: ipv4
@@ -2006,6 +2040,7 @@ components:
       - id
       - instance
       - location
+      - name
       - ports
       - resources
       - restartPolicy
@@ -2019,14 +2054,19 @@ components:
       type: array
     ServerConfig:
       example:
+        secretFiles:
+        - content: content
+          target: target
+        - content: content
+          target: target
         notes: notes
         resources:
           reservations:
-            memory: 4.145608029883936
-            cpu: 2.027123023002322
+            memory: 4
+            cpu: 2
           limits:
-            memory: 4.145608029883936
-            cpu: 2.027123023002322
+            memory: 4
+            cpu: 2
         mounts:
         - readOnly: true
           target: target
@@ -2059,11 +2099,9 @@ components:
         command: command
         args: args
         configFiles:
-        - name: name
-          content: content
+        - content: content
           target: target
-        - name: name
-          content: content
+        - content: content
           target: target
         appId: 3
         binary:
@@ -2083,8 +2121,12 @@ components:
           ready: true
           appId: 1
           name: name
+          steam:
+            steamAppId: 6
+            password: password
+            branch: branch
           id: 1
-          type: type
+          type: null
           dockerCompose:
             composeFile: composeFile
           version: version
@@ -2146,6 +2188,11 @@ components:
           items:
             $ref: '#/components/schemas/ConfigFile'
           type: array
+        secretFiles:
+          description: The secret files to use
+          items:
+            $ref: '#/components/schemas/SecretFile'
+          type: array
         binary:
           $ref: '#/components/schemas/Binary'
       required:
@@ -2162,6 +2209,7 @@ components:
       - ports
       - resources
       - restartPolicy
+      - secretFiles
       title: ServerConfig
     ServerConfigCollection:
       items:
@@ -2177,22 +2225,27 @@ components:
       required:
       - logs
       title: ServiceLogs
-    SteamWorks:
+    Steam:
+      example:
+        steamAppId: 6
+        password: password
+        branch: branch
       properties:
         steamAppId:
           description: The Steam App ID
-          type: string
+          type: integer
         branch:
           description: The branch to use
           type: string
         password:
           description: The password to use
+          nullable: true
           type: string
       required:
       - branch
       - password
       - steamAppId
-      title: SteamWorks
+      title: Steam
     ZipFile:
       example:
         zipFileUrl: zipFileUrl
@@ -2313,7 +2366,7 @@ components:
         zipFile:
           $ref: '#/components/schemas/ZipFile'
         steam:
-          $ref: '#/components/schemas/SteamWorks'
+          $ref: '#/components/schemas/Steam'
         dockerImage:
           $ref: '#/components/schemas/DockerImage'
       required:
@@ -2416,6 +2469,11 @@ components:
           description: The config files used in this server configuration
           items:
             $ref: '#/components/schemas/ConfigFile'
+          type: array
+        secretFiles:
+          description: The secret files used in this server configuration
+          items:
+            $ref: '#/components/schemas/SecretFile'
           type: array
         resources:
           $ref: '#/components/schemas/ResourceAllocations'

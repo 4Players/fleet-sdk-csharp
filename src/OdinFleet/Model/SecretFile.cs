@@ -27,40 +27,50 @@ using OpenAPIDateConverter = OdinFleet.Client.OpenAPIDateConverter;
 namespace OdinFleet.Model
 {
     /// <summary>
-    /// Resources
+    /// SecretFile
     /// </summary>
-    [DataContract(Name = "Resources")]
-    public partial class Resources : IValidatableObject
+    [DataContract(Name = "SecretFile")]
+    public partial class SecretFile : IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Resources" /> class.
+        /// Initializes a new instance of the <see cref="SecretFile" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Resources() { }
+        protected SecretFile() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="Resources" /> class.
+        /// Initializes a new instance of the <see cref="SecretFile" /> class.
         /// </summary>
-        /// <param name="cpu">The amount of cpu to allocate in cores (required).</param>
-        /// <param name="memory">The amount of memory to allocate in GB (required).</param>
-        public Resources(int cpu = default(int), int memory = default(int))
+        /// <param name="target">The path in the container (required).</param>
+        /// <param name="content">The content of the secret file (required).</param>
+        public SecretFile(string target = default(string), string content = default(string))
         {
-            this.Cpu = cpu;
-            this.Memory = memory;
+            // to ensure "target" is required (not null)
+            if (target == null)
+            {
+                throw new ArgumentNullException("target is a required property for SecretFile and cannot be null");
+            }
+            this.Target = target;
+            // to ensure "content" is required (not null)
+            if (content == null)
+            {
+                throw new ArgumentNullException("content is a required property for SecretFile and cannot be null");
+            }
+            this.Content = content;
         }
 
         /// <summary>
-        /// The amount of cpu to allocate in cores
+        /// The path in the container
         /// </summary>
-        /// <value>The amount of cpu to allocate in cores</value>
-        [DataMember(Name = "cpu", IsRequired = true, EmitDefaultValue = true)]
-        public int Cpu { get; set; }
+        /// <value>The path in the container</value>
+        [DataMember(Name = "target", IsRequired = true, EmitDefaultValue = true)]
+        public string Target { get; set; }
 
         /// <summary>
-        /// The amount of memory to allocate in GB
+        /// The content of the secret file
         /// </summary>
-        /// <value>The amount of memory to allocate in GB</value>
-        [DataMember(Name = "memory", IsRequired = true, EmitDefaultValue = true)]
-        public int Memory { get; set; }
+        /// <value>The content of the secret file</value>
+        [DataMember(Name = "content", IsRequired = true, EmitDefaultValue = true)]
+        public string Content { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -69,9 +79,9 @@ namespace OdinFleet.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Resources {\n");
-            sb.Append("  Cpu: ").Append(Cpu).Append("\n");
-            sb.Append("  Memory: ").Append(Memory).Append("\n");
+            sb.Append("class SecretFile {\n");
+            sb.Append("  Target: ").Append(Target).Append("\n");
+            sb.Append("  Content: ").Append(Content).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

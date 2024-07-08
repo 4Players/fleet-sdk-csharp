@@ -40,17 +40,10 @@ namespace OdinFleet.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigFile" /> class.
         /// </summary>
-        /// <param name="name">The name of the config file (required).</param>
         /// <param name="target">The path in the container (required).</param>
         /// <param name="content">The content of the config file (required).</param>
-        public ConfigFile(string name = default(string), string target = default(string), string content = default(string))
+        public ConfigFile(string target = default(string), string content = default(string))
         {
-            // to ensure "name" is required (not null)
-            if (name == null)
-            {
-                throw new ArgumentNullException("name is a required property for ConfigFile and cannot be null");
-            }
-            this.Name = name;
             // to ensure "target" is required (not null)
             if (target == null)
             {
@@ -64,13 +57,6 @@ namespace OdinFleet.Model
             }
             this.Content = content;
         }
-
-        /// <summary>
-        /// The name of the config file
-        /// </summary>
-        /// <value>The name of the config file</value>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
-        public string Name { get; set; }
 
         /// <summary>
         /// The path in the container
@@ -94,7 +80,6 @@ namespace OdinFleet.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ConfigFile {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Target: ").Append(Target).Append("\n");
             sb.Append("  Content: ").Append(Content).Append("\n");
             sb.Append("}\n");

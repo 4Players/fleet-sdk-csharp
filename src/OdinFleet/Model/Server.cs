@@ -43,6 +43,7 @@ namespace OdinFleet.Model
         /// <param name="id">The ID of the service (required).</param>
         /// <param name="appLocationSettingId">The ID of the location setting (required).</param>
         /// <param name="instance">The ID of the instance (required).</param>
+        /// <param name="name">name (required).</param>
         /// <param name="addr">The IP address of the node (required).</param>
         /// <param name="createdAt">When the service was created (required).</param>
         /// <param name="updatedAt">When the service was last updated (required).</param>
@@ -54,11 +55,17 @@ namespace OdinFleet.Model
         /// <param name="status">The status of the task (required).</param>
         /// <param name="serverConfig">The server configuration (required).</param>
         /// <param name="backup">The last backup of the service.</param>
-        public Server(int id = default(int), int appLocationSettingId = default(int), int instance = default(int), string addr = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), Location location = default(Location), Dictionary<string, EnvironmentVariable> env = default(Dictionary<string, EnvironmentVariable>), Dictionary<string, Port> ports = default(Dictionary<string, Port>), RestartPolicy restartPolicy = default(RestartPolicy), ResourceAllocations resources = default(ResourceAllocations), DockerTaskStatus status = default(DockerTaskStatus), ServerConfig serverConfig = default(ServerConfig), Backup backup = default(Backup))
+        public Server(int id = default(int), int appLocationSettingId = default(int), int instance = default(int), string name = default(string), string addr = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), Location location = default(Location), Dictionary<string, EnvironmentVariable> env = default(Dictionary<string, EnvironmentVariable>), Dictionary<string, Port> ports = default(Dictionary<string, Port>), RestartPolicy restartPolicy = default(RestartPolicy), ResourceAllocations resources = default(ResourceAllocations), DockerTaskStatus status = default(DockerTaskStatus), ServerConfig serverConfig = default(ServerConfig), Backup backup = default(Backup))
         {
             this.Id = id;
             this.AppLocationSettingId = appLocationSettingId;
             this.Instance = instance;
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new ArgumentNullException("name is a required property for Server and cannot be null");
+            }
+            this.Name = name;
             // to ensure "addr" is required (not null)
             if (addr == null)
             {
@@ -132,6 +139,12 @@ namespace OdinFleet.Model
         /// <value>The ID of the instance</value>
         [DataMember(Name = "instance", IsRequired = true, EmitDefaultValue = true)]
         public int Instance { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        public string Name { get; set; }
 
         /// <summary>
         /// The IP address of the node
@@ -221,6 +234,7 @@ namespace OdinFleet.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  AppLocationSettingId: ").Append(AppLocationSettingId).Append("\n");
             sb.Append("  Instance: ").Append(Instance).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Addr: ").Append(Addr).Append("\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
